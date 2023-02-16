@@ -15,21 +15,27 @@ server.listen(PORT, () => {
   console.log("puerto " + PORT);
 });
 
-app.post("/crear_pdf", (req, res) => {
-  let options = { format: "A4" };
-  console.log("pfg4654");
-  let file = { content: req.body.html };
-  html_to_pdf.generatePdf(file, options).then(
-    (pdfBuffer: any) => {
-      // agregar el encabezado Access-Control-Allow-Origin a la respuesta
-    
-      res.send(pdfBuffer);
-    },
-    (err: any) => {
-   
-      res.send(err);
-    }
-  );
+import puppeteer from 'puppeteer';
+
+app.get('/crear_pdf', async (req, res) => {
+  const { html } = req.body.html;
+
+  if (!html) {
+    return res.status(400).send('Missing required parameter: html');
+  }
+
+  try {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setContent(html as string);
+    const pdf = await page.pdf();
+    await browser.close();
+    res.setHeader('Content-Type', 'application/pdf');
+    res.send(pdf);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while generating the PDF');
+  }
 });
 
 app.get("/prueba", (req, res) => {
