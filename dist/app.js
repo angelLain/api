@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -18,45 +9,34 @@ const path = require("path");
 var html_to_pdf = require("html-pdf-node");
 const fs = require("fs");
 const app = (0, express_1.default)();
-var http = require("http");
 app.options('*', cors());
 app.set('trust proxy', 1);
 app.use(cors({ origin: true }));
 app.use(express_1.default.json());
+var http = require("http");
 const PORT = process.env.PORT || 8000;
 var server = http.createServer(app);
 server.listen(PORT, () => {
     console.log("puerto " + PORT);
 });
-const puppeteer_1 = __importDefault(require("puppeteer"));
-app.post('/crear_pdf', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const html = req.body.html;
-    console.log("pdf");
-    if (!html) {
-        return res.status(400).send('Missing required parameter: html');
-    }
-    try {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        const browser = yield puppeteer_1.default.launch({ ignoreHTTPSErrors: true });
-        const page = yield browser.newPage();
-        yield page.setContent(html);
-        const pdf = yield page.pdf();
-        yield browser.close();
-        res.setHeader('Content-Type', 'application/pdf');
-        res.send(pdf);
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).send('An error occurred while generating the PDF');
-    }
-}));
+app.post("/crear_pdf", (req, res) => {
+    let options = { format: "A4" };
+    console.log("pfg4654");
+    let file = { content: req.body.html };
+    html_to_pdf.generatePdf(file, options).then((pdfBuffer) => {
+        // agregar el encabezado Access-Control-Allow-Origin a la respuesta
+        res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        res.setHeader("Access-Control-Allow-Methods", "POST");
+        res.send(pdfBuffer);
+    }, (err) => {
+        res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        res.setHeader("Access-Control-Allow-Methods", "POST");
+        res.send(err);
+    });
+});
 app.get("/prueba", (req, res) => {
     console.log("hola");
     res.status(200).send("hola mundo");
-});
-app.post("/prueba_2", (req, res) => {
-    console.log("hola");
-    res.status(200).send(req.body);
 });
 app.get("/", (req, res) => {
     console.log("hola");
