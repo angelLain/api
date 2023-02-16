@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "nada",
   "main": "./dist/app.js",
-
   "scripts": {
     "start": "node ./dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,6 +17,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "html-pdf-node": "^1.0.8"
+    "html-pdf-node": "^1.0.8",
+    "puppeteer": "^19.7.1"
   }
 }
