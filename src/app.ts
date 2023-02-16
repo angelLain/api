@@ -8,7 +8,7 @@ var http = require("http");
 const PORT = process.env.PORT || 3977;
 var server = http.createServer(app);
 
-app.use(cors({ origin: "http://localhost:4200" }));
+app.use(cors({ origin: true }));
 app.use(express.json());
 
 server.listen(PORT, () => {
