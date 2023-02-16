@@ -10,10 +10,13 @@ var html_to_pdf = require("html-pdf-node");
 var fs = require("fs");
 var app = (0, express_1.default)();
 var http = require("http");
+var PORT = process.env.PORT || 3977;
 var server = http.createServer(app);
 app.use(cors({ origin: "http://localhost:4200" }));
 app.use(express_1.default.json());
-server.listen(8000);
+server.listen(PORT, function () {
+    console.log("puerto " + PORT);
+});
 app.post("/crear_pdf", function (req, res) {
     var options = { format: "A4" };
     console.log("pfg4654");
@@ -27,5 +30,9 @@ app.post("/crear_pdf", function (req, res) {
 });
 app.get("/prueba", function (req, res) {
     console.log("hola");
-    res.send("hola mundo");
+    res.status(200).send("hola mundo");
+});
+app.get("/", function (req, res) {
+    console.log("hola");
+    res.status(200).send("hola mundo");
 });
