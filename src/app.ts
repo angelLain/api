@@ -15,14 +15,7 @@ server.listen(PORT, () => {
   console.log("puerto " + PORT);
 });
 
-app.post("/crear_pdf", (req: any, res: any) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, OPTIONS"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Credentials", true);
+app.post("/crear_pdf", (req, res) => {
   let options = { format: "A4" };
   console.log("pfg4654");
   let file = { content: req.body.html };
