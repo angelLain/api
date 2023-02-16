@@ -12,9 +12,8 @@ var app = (0, express_1.default)();
 var http = require("http");
 var server = http.createServer(app);
 server.listen(8000);
-app.use(express_1.default.json());
+app.use(cors({ origin: true, credentials: true }));
 app.get("/crear_pdf", function (req, res) {
-    console.log("adasd");
     var options = { format: "A4" };
     console.log("pfg4654");
     var file = { content: req.body.html };

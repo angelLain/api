@@ -7,7 +7,7 @@ const app = express();
 var http = require("http");
 var server = http.createServer(app);
 server.listen(8000);
-app.use(express.json());
+app.use(cors({ origin: true, credentials: true }));
 
 app.get("/crear_pdf", (req, res) => {
   let options = { format: "A4" };
