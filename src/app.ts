@@ -11,7 +11,9 @@ var server = http.createServer(app);
 app.use(cors({ origin: "http://localhost:4200" }));
 app.use(express.json());
 
-server.listen(PORT);
+server.listen(PORT, () => {
+  console.log("puerto " + PORT);
+});
 
 app.post("/crear_pdf", (req: any, res: any) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
