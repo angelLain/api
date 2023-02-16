@@ -12,7 +12,7 @@ var app = (0, express_1.default)();
 var http = require("http");
 var PORT = process.env.PORT || 3977;
 var server = http.createServer(app);
-app.use(cors({ origin: "http://localhost:4200" }));
+app.use(cors({ origin: true }));
 app.use(express_1.default.json());
 server.listen(PORT, function () {
     console.log("puerto " + PORT);
