@@ -34,7 +34,8 @@ app.post('/crear_pdf', (req, res) => __awaiter(void 0, void 0, void 0, function*
         return res.status(400).send('Missing required parameter: html');
     }
     try {
-        const browser = yield puppeteer_1.default.launch();
+        const browser = yield puppeteer_1.default.launch({ ignoreHTTPSErrors: true });
+        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
         const page = yield browser.newPage();
         yield page.setContent(html);
         const pdf = yield page.pdf();

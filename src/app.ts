@@ -19,14 +19,15 @@ import puppeteer from 'puppeteer';
 
 app.post('/crear_pdf', async (req, res) => {
   const html = req.body.html;
-console.log("pdf");
+  console.log("pdf");
 
   if (!html) {
     return res.status(400).send('Missing required parameter: html');
   }
 
   try {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ ignoreHTTPSErrors: true });
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
     const page = await browser.newPage();
     await page.setContent(html);
     const pdf = await page.pdf();
