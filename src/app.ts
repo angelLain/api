@@ -22,13 +22,11 @@ app.post("/crear_pdf", (req, res) => {
   html_to_pdf.generatePdf(file, options).then(
     (pdfBuffer: any) => {
       // agregar el encabezado Access-Control-Allow-Origin a la respuesta
-      res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-      res.setHeader("Access-Control-Allow-Methods", "POST");
+    
       res.send(pdfBuffer);
     },
     (err: any) => {
-      res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-      res.setHeader("Access-Control-Allow-Methods", "POST");
+   
       res.send(err);
     }
   );
@@ -38,6 +36,12 @@ app.get("/prueba", (req, res) => {
   console.log("hola");
 
   res.status(200).send("hola mundo");
+});
+
+app.post("/prueba_2", (req, res) => {
+  console.log("hola");
+
+  res.status(200).send(req.body);
 });
 
 app.get("/", (req, res) => {

@@ -23,18 +23,18 @@ app.post("/crear_pdf", function (req, res) {
     var file = { content: req.body.html };
     html_to_pdf.generatePdf(file, options).then(function (pdfBuffer) {
         // agregar el encabezado Access-Control-Allow-Origin a la respuesta
-        res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-        res.setHeader("Access-Control-Allow-Methods", "POST");
         res.send(pdfBuffer);
     }, function (err) {
-        res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-        res.setHeader("Access-Control-Allow-Methods", "POST");
         res.send(err);
     });
 });
 app.get("/prueba", function (req, res) {
     console.log("hola");
     res.status(200).send("hola mundo");
+});
+app.post("/prueba_2", function (req, res) {
+    console.log("hola");
+    res.status(200).send(req.body);
 });
 app.get("/", function (req, res) {
     console.log("hola");
