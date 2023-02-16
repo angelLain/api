@@ -6,10 +6,13 @@ const fs = require("fs");
 const app = express();
 var http = require("http");
 var server = http.createServer(app);
-server.listen(8000);
-app.use(cors({ origin: true, credentials: true }));
 
-app.get("/crear_pdf", (req, res) => {
+app.use(cors({ origin: "http://localhost:4200" }));
+app.use(express.json());
+
+server.listen(8000);
+
+app.post("/crear_pdf", (req, res) => {
   let options = { format: "A4" };
   console.log("pfg4654");
   let file = { content: req.body.html };
@@ -22,4 +25,10 @@ app.get("/crear_pdf", (req, res) => {
       res.send(err);
     }
   );
+});
+
+app.get("/prueba", (req, res) => {
+  console.log("hola");
+
+  res.send("hola mundo");
 });

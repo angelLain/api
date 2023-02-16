@@ -11,9 +11,10 @@ var fs = require("fs");
 var app = (0, express_1.default)();
 var http = require("http");
 var server = http.createServer(app);
+app.use(cors({ origin: "http://localhost:4200" }));
+app.use(express_1.default.json());
 server.listen(8000);
-app.use(cors({ origin: true, credentials: true }));
-app.get("/crear_pdf", function (req, res) {
+app.post("/crear_pdf", function (req, res) {
     var options = { format: "A4" };
     console.log("pfg4654");
     var file = { content: req.body.html };
@@ -23,4 +24,8 @@ app.get("/crear_pdf", function (req, res) {
     }, function (err) {
         res.send(err);
     });
+});
+app.get("/prueba", function (req, res) {
+    console.log("hola");
+    res.send("hola mundo");
 });
