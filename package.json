@@ -5,6 +5,8 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "tsc && node dist/app.js",
+    "postinstall": "npm run compile:deps",
+    "compile:deps": "tsc -p ./node_modules --skipLibCheck",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
