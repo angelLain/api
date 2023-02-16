@@ -17,9 +17,10 @@ server.listen(PORT, () => {
 
 import puppeteer from 'puppeteer';
 
-app.get('/crear_pdf', async (req, res) => {
-  const { html } = req.body.html;
+app.post('/crear_pdf', async (req, res) => {
+  const html = req.body.html;
 
+  
   if (!html) {
     return res.status(400).send('Missing required parameter: html');
   }

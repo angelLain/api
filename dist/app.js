@@ -27,8 +27,8 @@ server.listen(PORT, () => {
     console.log("puerto " + PORT);
 });
 const puppeteer_1 = __importDefault(require("puppeteer"));
-app.get('/crear_pdf', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { html } = req.body.html;
+app.post('/crear_pdf', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const html = req.body.html;
     if (!html) {
         return res.status(400).send('Missing required parameter: html');
     }
