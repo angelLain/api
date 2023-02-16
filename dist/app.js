@@ -28,30 +28,22 @@ var server = http.createServer(app);
 server.listen(PORT, () => {
     console.log("puerto " + PORT);
 });
-const puppeteer_1 = __importDefault(require("puppeteer"));
 app.post('/crear_pdf', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const html = req.body.html;
-    console.log("pdf");
-    if (!html) {
-        return res.status(400).send('Missing required parameter: html');
-    }
-    try {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'POST');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-        res.setHeader('Access-Control-Max-Age', '86400');
-        const browser = yield puppeteer_1.default.launch({ ignoreHTTPSErrors: true });
-        const page = yield browser.newPage();
-        yield page.setContent(html);
-        const pdf = yield page.pdf();
-        yield browser.close();
-        res.setHeader('Content-Type', 'application/pdf');
-        res.send(pdf);
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).send(error);
-    }
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Max-Age', '86400');
+    let options = { format: 'A4' };
+    console.log("pfg");
+    let file = { content: html };
+    html_to_pdf.generatePdf(file, options).then((pdfBuffer) => {
+        pdfBuffer.sa;
+        res.send(pdfBuffer);
+    }, (err) => {
+        console.log(err);
+        res.send(err);
+    });
 }));
 app.get("/prueba", (req, res) => {
     console.log("hola");
