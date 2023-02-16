@@ -4,40 +4,50 @@ const path = require("path");
 var html_to_pdf = require("html-pdf-node");
 const fs = require("fs");
 const app = express();
+var http = require("http");
 app.options('*', cors());
 app.set('trust proxy', 1);
 app.use(cors({ origin: true }));
 app.use(express.json());
-var http = require("http");
 const PORT = process.env.PORT || 8000;
 var server = http.createServer(app);
+
 
 server.listen(PORT, () => {
   console.log("puerto " + PORT);
 });
 
-app.post("/crear_pdf", (req, res) => {
-  let options = { format: "A4" };
-  console.log("pfg4654");
-  let file = { content: req.body.html };
-  html_to_pdf.generatePdf(file, options).then(
-    (pdfBuffer: any) => {
-      // agregar el encabezado Access-Control-Allow-Origin a la respuesta
-      res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Max-Age', '86400');
-      res.send(pdfBuffer);
-    },
-    (err: any) => {
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Access-Control-Allow-Methods', 'POST');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-      res.setHeader('Access-Control-Max-Age', '86400');
-      res.send(err);
-    }
-  );
+import puppeteer from 'puppeteer';
+
+app.post('/crear_pdf', async (req, res) => {
+  const html = req.body.html;
+  console.log("pdf");
+  console.log(html);
+  
+
+  if (!html) {
+    return res.status(400).send('Missing required parameter: html');
+  }
+
+  try {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Max-Age', '86400');
+
+    const browser = await puppeteer.launch({ ignoreHTTPSErrors: true });
+    const page = await browser.newPage();
+    await page.setContent(html);
+    const pdf = await page.pdf();
+    await browser.close();
+    res.setHeader('Content-Type', 'application/pdf');
+    res.send(pdf);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while generating the PDF');
+  }
 });
+
 
 app.get("/prueba", (req, res) => {
   console.log("hola");
@@ -45,10 +55,14 @@ app.get("/prueba", (req, res) => {
   res.status(200).send("hola mundo");
 });
 
+app.post("/prueba_2", (req, res) => {
+  console.log("hola");
+
+  res.status(200).send(req.body);
+});
+
 app.get("/", (req, res) => {
   console.log("hola");
 
   res.status(200).send("hola mundo");
 });
-
-
