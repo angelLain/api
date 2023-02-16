@@ -22,8 +22,6 @@ import puppeteer from 'puppeteer';
 app.post('/crear_pdf', async (req, res) => {
   const html = req.body.html;
   console.log("pdf");
-  console.log(html);
-  
 
   if (!html) {
     return res.status(400).send('Missing required parameter: html');
@@ -44,7 +42,7 @@ app.post('/crear_pdf', async (req, res) => {
     res.send(pdf);
   } catch (error) {
     console.error(error);
-    res.status(500).send('An error occurred while generating the PDF');
+    res.status(500).send(error);
   }
 });
 
