@@ -5,11 +5,13 @@ var html_to_pdf = require("html-pdf-node");
 const fs = require("fs");
 const app = express();
 var http = require("http");
-const PORT = process.env.PORT || 8000;
-var server = http.createServer(app);
+app.options('*', cors());
 app.set('trust proxy', 1);
 app.use(cors({ origin: true }));
 app.use(express.json());
+const PORT = process.env.PORT || 8000;
+var server = http.createServer(app);
+
 
 server.listen(PORT, () => {
   console.log("puerto " + PORT);
