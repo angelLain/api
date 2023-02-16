@@ -5,12 +5,13 @@ var html_to_pdf = require("html-pdf-node");
 const fs = require("fs");
 const app = express();
 var http = require("http");
+const PORT = process.env.PORT || 3977;
 var server = http.createServer(app);
 
 app.use(cors({ origin: "http://localhost:4200" }));
 app.use(express.json());
 
-server.listen(8000);
+server.listen(PORT);
 
 app.post("/crear_pdf", (req: any, res: any) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
