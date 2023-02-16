@@ -7,7 +7,7 @@ const app = express();
 var http = require("http");
 const PORT = process.env.PORT || 8000;
 var server = http.createServer(app);
-
+app.set('trust proxy', 1);
 app.use(cors({ origin: true }));
 app.use(express.json());
 
@@ -27,7 +27,7 @@ app.post('/crear_pdf', async (req, res) => {
 
   try {
     const browser = await puppeteer.launch({ ignoreHTTPSErrors: true });
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     const page = await browser.newPage();
     await page.setContent(html);
     const pdf = await page.pdf();
