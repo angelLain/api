@@ -5,7 +5,7 @@ var html_to_pdf = require("html-pdf-node");
 const fs = require("fs");
 const app = express();
 var http = require("http");
-const PORT = process.env.PORT || 3977;
+const PORT = process.env.PORT || 8000;
 var server = http.createServer(app);
 
 app.use(cors({ origin: true }));
@@ -19,8 +19,8 @@ import puppeteer from 'puppeteer';
 
 app.post('/crear_pdf', async (req, res) => {
   const html = req.body.html;
+console.log("pdf");
 
-  
   if (!html) {
     return res.status(400).send('Missing required parameter: html');
   }
@@ -28,7 +28,7 @@ app.post('/crear_pdf', async (req, res) => {
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.setContent(html as string);
+    await page.setContent(html);
     const pdf = await page.pdf();
     await browser.close();
     res.setHeader('Content-Type', 'application/pdf');
@@ -38,6 +38,7 @@ app.post('/crear_pdf', async (req, res) => {
     res.status(500).send('An error occurred while generating the PDF');
   }
 });
+
 
 app.get("/prueba", (req, res) => {
   console.log("hola");

@@ -19,7 +19,7 @@ var html_to_pdf = require("html-pdf-node");
 const fs = require("fs");
 const app = (0, express_1.default)();
 var http = require("http");
-const PORT = process.env.PORT || 3977;
+const PORT = process.env.PORT || 8000;
 var server = http.createServer(app);
 app.use(cors({ origin: true }));
 app.use(express_1.default.json());
@@ -29,6 +29,7 @@ server.listen(PORT, () => {
 const puppeteer_1 = __importDefault(require("puppeteer"));
 app.post('/crear_pdf', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const html = req.body.html;
+    console.log("pdf");
     if (!html) {
         return res.status(400).send('Missing required parameter: html');
     }
