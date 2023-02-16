@@ -29,9 +29,7 @@ app.post('/crear_pdf', async (req, res) => {
 
   try {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader('Access-Control-Max-Age', '86400');
+
     const browser = await puppeteer.launch({ ignoreHTTPSErrors: true });
     const page = await browser.newPage();
     await page.setContent(html);
