@@ -25,11 +25,11 @@ app.post("/crear_pdf", (req, res) => {
     let file = { content: req.body.html };
     html_to_pdf.generatePdf(file, options).then((pdfBuffer) => {
         // agregar el encabezado Access-Control-Allow-Origin a la respuesta
-        res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Access-Control-Allow-Methods", "POST");
         res.send(pdfBuffer);
     }, (err) => {
-        res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Access-Control-Allow-Methods", "POST");
         res.send(err);
     });
