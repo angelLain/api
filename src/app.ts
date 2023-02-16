@@ -37,5 +37,11 @@ app.post("/crear_pdf", (req: any, res: any) => {
 app.get("/prueba", (req, res) => {
   console.log("hola");
 
-  res.send("hola mundo");
+  res.status(200).send("hola mundo");
+});
+
+app.get("/", (req, res) => {
+  console.log("hola");
+
+  res.status(200).send("hola mundo");
 });
