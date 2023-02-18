@@ -7,17 +7,51 @@ const app = express();
 var http = require("http");
 app.options('*', cors());
 app.set('trust proxy', 1);
+const pdf = require('html-pdf');
 app.use(cors({ origin: true }));
 app.use(express.json());
 const PORT = process.env.PORT || 8000;
 var server = http.createServer(app);
 
 
+
 server.listen(PORT, () => {
   console.log("puerto " + PORT);
 });
 
-import puppeteer from 'puppeteer';
+
+
+app.post('/pdf', (req, res) => {
+  const { html } = req.body;
+
+  pdf.create(html).toFile('archivo.pdf', (err:any, result:any) => {
+    if (err) {
+      res.status(500).send('Error al generar el PDF');
+      return;
+    }
+
+    const filePath = result.filename;
+
+    res.sendFile(filePath, {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment; filename=archivo.pdf'
+      }
+    }, (err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error al enviar el archivo');
+      }
+
+      fs.unlink(filePath, (err:any) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+    });
+  });
+});
+
 
 app.post('/crear_pdf', async (req, res) => {
   const html = req.body.html;
