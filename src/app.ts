@@ -1,7 +1,5 @@
 import express from "express";
 import multer from "multer";
-import bodyParser from 'body-parser';
-import { PDFDocumentProxy, PDFPageProxy, PDFWorker } from 'pdfjs-dist';
 const cors = require("cors");
 const path = require("path");
 var html_to_pdf = require("html-pdf-node");
@@ -12,15 +10,16 @@ app.options('*', cors());
 const upload = multer();
 app.set('trust proxy', 1);
 const pdf = require('html-pdf');
+
 app.use(cors({ origin: true }));
 app.use(express.json());
 const PORT = process.env.PORT || 8000;
 var server = http.createServer(app);
-import stream from 'stream';
 
 
 app.post("/convert", (req: any, res: any) => {
-
+  console.log("pdf");
+  
 
   let options = { format: "A4" };
   console.log("pfg4654");
