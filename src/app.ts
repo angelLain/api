@@ -1,13 +1,11 @@
 import express from "express";
-import multer from "multer";
+
 const cors = require("cors");
-const path = require("path");
 var html_to_pdf = require("html-pdf-node");
 const fs = require("fs"); 
 const app = express();
 var http = require("http");
 app.options('*', cors());
-const upload = multer();
 app.set('trust proxy', 1);
 const pdf = require('html-pdf');
 
@@ -20,12 +18,12 @@ var server = http.createServer(app);
 app.post("/convert", (req: any, res: any) => {
   console.log("pdf");
   
-
   let options = { format: "A4" };
-  console.log("pfg4654");
   let file = { content: req.body.html };
   html_to_pdf.generatePdf(file, options).then(
     (pdfBuffer: any) => {
+      console.log("se creo pdf");
+  
       // agregar el encabezado Access-Control-Allow-Origin a la respuesta
       res.send(pdfBuffer);
     },
