@@ -29,14 +29,14 @@ app.use(express_1.default.json());
 const PORT = process.env.PORT || 8000;
 var server = http.createServer(app);
 app.post("/convert", (req, res) => {
-    // Obtener el HTML del body de la solicitud
-    const { html } = req.body;
-    // Convertir HTML a PDF
-    pdf.create(html).toBuffer("output.pdf", (err, buffer) => {
-        if (err)
-            return console.log(err);
-        // Devolver el archivo PDF
-        res.send(buffer);
+    let options = { format: "A4" };
+    console.log("pfg4654");
+    let file = { content: req.body.html };
+    html_to_pdf.generatePdf(file, options).then((pdfBuffer) => {
+        // agregar el encabezado Access-Control-Allow-Origin a la respuesta
+        res.send(pdfBuffer);
+    }, (err) => {
+        res.send(err);
     });
 });
 // Iniciar el servidor
