@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const multer_1 = __importDefault(require("multer"));
 const cors = require("cors");
 const path = require("path");
 var html_to_pdf = require("html-pdf-node");
@@ -20,12 +21,30 @@ const fs = require("fs");
 const app = (0, express_1.default)();
 var http = require("http");
 app.options('*', cors());
+const upload = (0, multer_1.default)();
 app.set('trust proxy', 1);
 const pdf = require('html-pdf');
 app.use(cors({ origin: true }));
 app.use(express_1.default.json());
 const PORT = process.env.PORT || 8000;
 var server = http.createServer(app);
+app.post("/convert", (req, res) => {
+    // Obtener el HTML del body de la solicitud
+    const { html } = req.body;
+    // Configurar las opciones para el PDF
+    const options = { format: "Letter" };
+    // Convertir HTML a PDF
+    pdf.create(html, options).toFile("output.pdf", (err, response) => {
+        if (err)
+            return console.log(err);
+        console.log(response);
+        // Devolver el archivo PDF
+        setTimeout(() => {
+            res.sendFile(response.filename);
+        }, 1500);
+    });
+});
+// Iniciar el servidor
 server.listen(PORT, () => {
     console.log("puerto " + PORT);
 });
@@ -62,10 +81,8 @@ app.post('/crear_pdf', (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.setHeader('Access-Control-Max-Age', '86400');
     let options = { format: 'A4' };
-    console.log("pfg");
     let file = { content: html };
     html_to_pdf.generatePdf(file, options).then((pdfBuffer) => {
-        pdfBuffer.sa;
         res.send(pdfBuffer);
     }, (err) => {
         console.log(err);
