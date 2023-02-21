@@ -20,17 +20,22 @@ import stream from 'stream';
 
 
 app.post("/convert", (req: any, res: any) => {
-  // Obtener el HTML del body de la solicitud
-  const { html } = req.body;
 
 
-  // Convertir HTML a PDF
-  pdf.create(html).toBuffer("output.pdf", (err:any, buffer:any) => {
-    if (err) return console.log(err);
+  let options = { format: "A4" };
+  console.log("pfg4654");
+  let file = { content: req.body.html };
+  html_to_pdf.generatePdf(file, options).then(
+    (pdfBuffer: any) => {
+      // agregar el encabezado Access-Control-Allow-Origin a la respuesta
+      res.send(pdfBuffer);
+    },
+    (err: any) => {
+      res.send(err);
+    }
+  );
   
-    // Devolver el archivo PDF
-    res.send(buffer);
-  });
+
 });
 
 // Iniciar el servidor
