@@ -97,7 +97,6 @@ app.get("/", (req, res) => {
     console.log("hola");
     res.status(200).send("hola mundo");
 });
-app.post("/geo", (req, res) => {
-    console.log("se activo geo");
+app.get("/geo", (req, res) => {
     console.log(req.body);
 });

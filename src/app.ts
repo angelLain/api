@@ -127,6 +127,8 @@ app.get("/", (req, res) => {
 });
 
 
-app.get("/geo", (req, res) => {
+app.post("/geo", (req, res) => {
+  console.log("se activo");
+  
   console.log(req.body);
 });
