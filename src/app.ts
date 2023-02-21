@@ -24,7 +24,9 @@ app.post("/convert", (req: any, res: any) => {
   const { html } = req.body;
 
   // Configurar las opciones para el PDF
-  const options = { format: "Letter" };
+  const options = {
+    "phantomPath": "./node_modules/phantomjs/bin/phantomjs",
+  };
 
   // Convertir HTML a PDF
   pdf.create(html, options).toFile("output.pdf", (err:any, response:any) => {
