@@ -34,9 +34,9 @@ app.post("/convert", (req, res) => {
     let file = { content: req.body.html };
     html_to_pdf.generatePdf(file, options).then((pdfBuffer) => {
         console.log("se creo pdf");
-        // agregar el encabezado Access-Control-Allow-Origin a la respuesta
         res.send(pdfBuffer);
     }, (err) => {
+        console.log(err);
         res.send(err);
     });
 });

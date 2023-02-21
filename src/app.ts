@@ -28,10 +28,11 @@ app.post("/convert", (req: any, res: any) => {
     (pdfBuffer: any) => {
       console.log("se creo pdf");
   
-      // agregar el encabezado Access-Control-Allow-Origin a la respuesta
       res.send(pdfBuffer);
     },
     (err: any) => {
+      console.log(err);
+      
       res.send(err);
     }
   );
