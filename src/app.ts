@@ -16,7 +16,11 @@ var server = http.createServer(app);
 
 
 app.post("/convert", (req: any, res: any) => {
-  console.log("pdf");
+  console.log("activo pdf");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With");
+  
   
   let options = { format: "A4" };
   let file = { content: req.body.html };

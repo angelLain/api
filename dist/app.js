@@ -13,15 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const multer_1 = __importDefault(require("multer"));
 const cors = require("cors");
-const path = require("path");
 var html_to_pdf = require("html-pdf-node");
 const fs = require("fs");
 const app = (0, express_1.default)();
 var http = require("http");
 app.options('*', cors());
-const upload = (0, multer_1.default)();
 app.set('trust proxy', 1);
 const pdf = require('html-pdf');
 app.use(cors({ origin: true }));
@@ -29,10 +26,14 @@ app.use(express_1.default.json());
 const PORT = process.env.PORT || 8000;
 var server = http.createServer(app);
 app.post("/convert", (req, res) => {
+    console.log("activo pdf");
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With");
     let options = { format: "A4" };
-    console.log("pfg4654");
     let file = { content: req.body.html };
     html_to_pdf.generatePdf(file, options).then((pdfBuffer) => {
+        console.log("se creo pdf");
         // agregar el encabezado Access-Control-Allow-Origin a la respuesta
         res.send(pdfBuffer);
     }, (err) => {
