@@ -31,17 +31,12 @@ var server = http.createServer(app);
 app.post("/convert", (req, res) => {
     // Obtener el HTML del body de la solicitud
     const { html } = req.body;
-    // Configurar las opciones para el PDF
-    const options = { format: "Letter" };
     // Convertir HTML a PDF
-    pdf.create(html, options).toFile("output.pdf", (err, response) => {
+    pdf.create(html).toBuffer("output.pdf", (err, buffer) => {
         if (err)
             return console.log(err);
-        console.log(response);
         // Devolver el archivo PDF
-        setTimeout(() => {
-            res.sendFile(response.filename);
-        }, 1500);
+        res.send(buffer);
     });
 });
 // Iniciar el servidor
