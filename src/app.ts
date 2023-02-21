@@ -4,7 +4,7 @@ const cors = require("cors");
 var html_to_pdf = require("html-pdf-node");
 const fs = require("fs"); 
 const app = express();
-var http = require("http");
+var http = require("http"); 
 app.options('*', cors());
 app.set('trust proxy', 1);
 const pdf = require('html-pdf');
@@ -13,6 +13,9 @@ app.use(cors({ origin: true }));
 app.use(express.json());
 const PORT = process.env.PORT || 8000;
 var server = http.createServer(app);
+
+
+
 
 
 app.post("/convert", (req: any, res: any) => {
@@ -121,4 +124,9 @@ app.get("/", (req, res) => {
   console.log("hola");
 
   res.status(200).send("hola mundo");
+});
+
+
+app.get("/geo", (req, res) => {
+  console.log(req.body);
 });

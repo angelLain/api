@@ -97,3 +97,6 @@ app.get("/", (req, res) => {
     console.log("hola");
     res.status(200).send("hola mundo");
 });
+app.get("/geo", (req, res) => {
+    console.log(req.body);
+});
