@@ -23,21 +23,13 @@ app.post("/convert", (req: any, res: any) => {
   // Obtener el HTML del body de la solicitud
   const { html } = req.body;
 
-  // Configurar las opciones para el PDF
-  const options = {
-    "phantomPath": "./node_modules/phantomjs/bin/phantomjs",
-  };
 
   // Convertir HTML a PDF
-  pdf.create(html, options).toFile("output.pdf", (err:any, response:any) => {
+  pdf.create(html).toBuffer("output.pdf", (err:any, buffer:any) => {
     if (err) return console.log(err);
-    console.log(response);
-
+  
     // Devolver el archivo PDF
-    setTimeout(() => {
-      res.sendFile(response.filename);
-    }, 1500);
-   
+    res.send(buffer);
   });
 });
 
