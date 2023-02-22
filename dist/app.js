@@ -98,6 +98,8 @@ app.get("/", (req, res) => {
     res.status(200).send("hola mundo");
 });
 app.post("/geo", (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log("se activo");
     console.log(req.body);
     res.send("hola");

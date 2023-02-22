@@ -116,7 +116,7 @@ app.get("/prueba", (req, res) => {
 
 app.post("/prueba_2", (req, res) => {
   console.log("hola");
-  
+
 
   res.status(200).send(req.body);
 });
@@ -129,6 +129,8 @@ app.get("/", (req, res) => {
 
 
 app.post("/geo", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   console.log("se activo");
   
   console.log(req.body);
