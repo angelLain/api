@@ -116,6 +116,7 @@ app.get("/prueba", (req, res) => {
 
 app.post("/prueba_2", (req, res) => {
   console.log("hola");
+  
 
   res.status(200).send(req.body);
 });
